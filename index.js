@@ -4,27 +4,27 @@ const { ReactSumUp } = NativeModules;
 
 const SumUpSDK = {
 
-    setApiKey = (apikey) => {
+    setApiKey(apikey) {
         return ReactSumUp.setupAPIKey(apikey)
     },
 
-    showLoginViewController = () => {
+    showLoginViewController(){
             return ReactSumUp.presentLoginFromViewController()
     },
 
-    loginWithToken = (token) => {
+    loginWithToken(token) {
         return ReactSumUp.loginToSumUpWithToken(token)
     },
 
-    checkIsLoggedIn = () => {
+    checkIsLoggedIn(){
         return ReactSumUp.isLoggedIn()
     },
 
-    logout = () => {
+    logout() {
         return ReactSumUp.logout()
     },
 
-    checkout = (title, sum, skip="false",foreignTrID) => {
+    checkout(title, sum, skip="false",foreignTrID) {
         const request = {
             'title' : title,
             'totalAmount' : sum,
