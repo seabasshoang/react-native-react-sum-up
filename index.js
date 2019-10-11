@@ -1,27 +1,27 @@
 import { NativeModules } from 'react-native';
 
-const { ReactSumUp } = NativeModules;
+const { SumUpBridge } = NativeModules;
 
 const SumUpSDK = {
 
     setApiKey(apikey) {
-        return ReactSumUp.setupAPIKey(apikey)
+        return SumUpBridge.setupAPIKey(apikey)
     },
 
     showLoginViewController(){
-            return ReactSumUp.presentLoginFromViewController()
+            return SumUpBridge.presentLoginFromViewController()
     },
 
     loginWithToken(token) {
-        return ReactSumUp.loginToSumUpWithToken(token)
+        return SumUpBridge.loginToSumUpWithToken(token)
     },
 
     checkIsLoggedIn(){
-        return ReactSumUp.isLoggedIn()
+        return SumUpBridge.isLoggedIn()
     },
 
     logout() {
-        return ReactSumUp.logout()
+        return SumUpBridge.logout()
     },
 
     checkout(title, sum, skip="false",foreignTrID) {
@@ -31,7 +31,7 @@ const SumUpSDK = {
             'skipScreenOptions' : skip,
             "foreignID" : foreignTrID
         }
-        return ReactSumUp.paymentCheckout(request)
+        return SumUpBridge.paymentCheckout(request)
     }
 }
 
