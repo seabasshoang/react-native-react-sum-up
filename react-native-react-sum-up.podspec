@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                    DESC
   s.homepage     = "https://github.com/WebRom1145/react-native-react-sum-up"
   s.license      = "MIT"
-  s.authors      = { "SupervistaAG" }
+  s.authors      = "SupervistaAG"
   s.platforms    = { :ios => "9.0", :tvos => "10.0" }
   s.source       = { :git => "https://github.com/WebRom1145/react-native-react-sum-up.git", :tag => "#{s.version}" }
 
