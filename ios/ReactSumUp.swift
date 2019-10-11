@@ -140,10 +140,23 @@ class SumUpBridge: NSObject {
     guard let merchantCurrencyCode = SumUpSDK.currentMerchant?.currencyCode else {
       return
     }
+    if let foreId = request["foreignID"]{
+      foreignTrID=foreId
+    } else {
+      foreignTrID = ""
+    }
+    guard let skip = request["skipScreenOptions"] else {
+      return
+    }
+    
     
     let checkOutRequest = CheckoutRequest(total: total, title: title, currencyCode: merchantCurrencyCode, paymentOptions: [.cardReader, .mobilePayment])
-    checkOutRequest.skipScreenOptions = .success
-    checkOutRequest.foreignTransactionID = "your-unique-identifier-\(ProcessInfo.processInfo.globallyUniqueString)"
+    if(skip == "true"){
+      checkOutRequest.skipScreenOptions = .success
+    }
+    if(!foreignTrID.isEmpty){
+      checkOutRequest.foreignTransactionID = foreignTrID
+    }
     DispatchQueue.main.sync {
       guard let rootView = UIApplication.shared.keyWindow?.rootViewController else {
              let newerror = NSError(domain: "", code: 200, userInfo: [NSLocalizedDescriptionKey: "Don't found RootViewController"])
