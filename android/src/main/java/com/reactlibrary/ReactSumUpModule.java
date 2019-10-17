@@ -39,7 +39,7 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "ReactSumUp";
+        return "SumUpBridge";
     }
 
     @ReactMethod
