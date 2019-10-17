@@ -1,19 +1,29 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 
 const { SumUpBridge } = NativeModules;
 
 const SumUpSDK = {
 
     setApiKey(apikey) {
-        return SumUpBridge.setupAPIKey(apikey)
+        if(Platform.OS === 'ios'){
+            return SumUpBridge.setupAPIKey(apikey)
+        }
     },
 
     showLoginViewController(){
-            return SumUpBridge.presentLoginFromViewController()
+        if(Platform.OS === 'ios'){
+            SumUpBridge.presentLoginFromViewController()
+        }else {
+            SumUpBridge.presentLoginFromViewController(apikey, token)
+        }
     },
 
     loginWithToken(token) {
+        if(Platform.OS === 'ios'){
         return SumUpBridge.loginToSumUpWithToken(token)
+        }else{
+            return SumUpBridge.loginToSumUpWithToken(apikey,token)
+        }
     },
 
     checkIsLoggedIn(){
