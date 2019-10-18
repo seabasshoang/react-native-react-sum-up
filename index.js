@@ -10,7 +10,7 @@ const SumUpSDK = {
         }
     },
 
-    showLoginViewController(){
+    showLoginViewController(apikey=""){
         if(Platform.OS === 'ios'){
             SumUpBridge.presentLoginFromViewController()
         }else {
