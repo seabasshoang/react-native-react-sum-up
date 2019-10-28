@@ -18,7 +18,7 @@ const SumUpSDK = {
         }
     },
 
-    loginWithToken(token) {
+    loginWithToken(token, apikey="") {
         if(Platform.OS === 'ios'){
         return SumUpBridge.loginToSumUpWithToken(token)
         }else{
