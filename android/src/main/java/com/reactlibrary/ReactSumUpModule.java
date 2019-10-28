@@ -30,7 +30,7 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
     private static final int REQUEST_CODE_PAYMENT_SETTINGS = 3;
     private static final int TRANSACTION_SUCCESSFUL = 1;
 
-    private Promise mSumUpPromise;
+    private Promise sumUpPromise;
 
     public ReactSumUpModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -44,39 +44,37 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void presentLoginFromViewController(String affiliateKey, Promise promise) {
-        mSumUpPromise = promise;
+        sumUpPromise = promise;
         SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).build();
         SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
     }
 
     @ReactMethod
     public void loginToSumUpWithToken(String affiliateKey, String token, Promise promise) {
-        mSumUpPromise = promise;
+        sumUpPromise = promise;
         SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).accessToken(token).build();
         SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
     }
 
     @ReactMethod
     public void preparePaymentCheckout(Promise promise) {
-        mSumUpPromise = promise;
+        sumUpPromise = promise;
         SumUpAPI.prepareForCheckout();
     }
 
     @ReactMethod
     public void logout(Promise promise) {
-        mSumUpPromise = promise;
+        sumUpPromise = promise;
         SumUpAPI.logout();
-        mSumUpPromise.resolve(true);
+        sumUpPromise.resolve(true);
     }
-
-
 
     @ReactMethod
     public void paymentCheckout(ReadableMap request, Promise promise) {
-        // TODO: replace foreignTransactionId for transaction UUID sent by user.
-        mSumUpPromise = promise;
+
+        sumUpPromise = promise;
         try {
-            String foreignTransactionId = UUID.randomUUID().toString();
+            String foreignTransactionId = "";
             if (request.getString("foreignTransactionId") != null) {
                 foreignTransactionId = request.getString("foreignTransactionId");
             }
@@ -89,14 +87,14 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                     .build();
             SumUpAPI.checkout(getCurrentActivity(), payment, REQUEST_CODE_PAYMENT);
         } catch (Exception ex) {
-            mSumUpPromise.reject(ex);
-            mSumUpPromise = null;
+            sumUpPromise.reject(ex);
+            sumUpPromise = null;
         }
     }
 
     @ReactMethod
     public void preferences(Promise promise) {
-        mSumUpPromise = promise;
+        sumUpPromise = promise;
         SumUpAPI.openPaymentSettingsActivity(getCurrentActivity(), REQUEST_CODE_PAYMENT_SETTINGS);
     }
 
@@ -118,16 +116,9 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                         if (extra.getInt(SumUpAPI.Response.RESULT_CODE) == REQUEST_CODE_LOGIN) {
                             WritableMap map = Arguments.createMap();
                             map.putBoolean("success", true);
-
-                            UserModel userInfo = CoreState.Instance().get(UserModel.class);
-                            WritableMap userAdditionalInfo = Arguments.createMap();
-                            userAdditionalInfo.putString("merchantCode", userInfo.getBusiness().getMerchantCode());
-                            userAdditionalInfo.putString("currencyCode", userInfo.getBusiness().getCountry().getCurrency().getCode());
-                            map.putMap("userAdditionalInfo", userAdditionalInfo);
-
-                            mSumUpPromise.resolve(map);
+                            sumUpPromise.resolve(map);
                         } else {
-                            mSumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
+                            sumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
                         }
                     }
                     break;
@@ -135,29 +126,21 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                 case REQUEST_CODE_PAYMENT:
                     if (data != null) {
                         Bundle extra = data.getExtras();
-                        if (mSumUpPromise != null) {
+                        if (sumUpPromise != null) {
                             if (extra.getInt(SumUpAPI.Response.RESULT_CODE) == TRANSACTION_SUCCESSFUL) {
                                 WritableMap map = Arguments.createMap();
                                 map.putBoolean("success", true);
                                 map.putString("transactionCode", extra.getString(SumUpAPI.Response.TX_CODE));
-
-                                TransactionInfo transactionInfo = extra.getParcelable(SumUpAPI.Response.TX_INFO);
-                                WritableMap additionalInfo = Arguments.createMap();
-                                additionalInfo.putString("cardType", transactionInfo.getCard().getType());
-                                additionalInfo.putString("cardLast4Digits", transactionInfo.getCard().getLast4Digits());
-                                additionalInfo.putInt("installments", transactionInfo.getInstallments());
-                                map.putMap("additionalInfo", additionalInfo);
-
-                                mSumUpPromise.resolve(map);
+                                sumUpPromise.resolve(map);
                             }else
-                                mSumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
+                                sumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
                         }
                     }
                     break;
                 case REQUEST_CODE_PAYMENT_SETTINGS:
                     WritableMap map = Arguments.createMap();
                     map.putBoolean("success", true);
-                    mSumUpPromise.resolve(map);
+                    sumUpPromise.resolve(map);
                     break;
                 default:
                     break;

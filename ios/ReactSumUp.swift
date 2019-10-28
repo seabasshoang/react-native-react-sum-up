@@ -197,8 +197,8 @@ class SumUpBridge: NSObject {
           if let info = safeResult.additionalInfo,
                     let foreignTransId = info["foreign_transaction_id"] as? String,
                     let amount = info["amount"] as? NSDecimalNumber{
-                    resultObject["amount"]=foreignTransId
-                    resultObject["foreignTransactionID"]=amount
+                    resultObject["foreignTransactionID"]=foreignTransId
+                    resultObject["amount"]=amount
           }
                resolve(self.generateJSONResponse(parms: resultObject))
             } else {
