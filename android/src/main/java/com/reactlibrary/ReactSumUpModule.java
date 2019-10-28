@@ -75,8 +75,8 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
         sumUpPromise = promise;
         try {
             String foreignTransactionId = "";
-            if (request.getString("foreignTransactionId") != null) {
-                foreignTransactionId = request.getString("foreignTransactionId");
+            if (request.getString("foreignID") != null) {
+                foreignTransactionId = request.getString("foreignID");
             }
             SumUpPayment payment = SumUpPayment.builder()
                     .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
