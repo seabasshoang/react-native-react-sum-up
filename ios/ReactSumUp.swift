@@ -127,7 +127,7 @@ class SumUpBridge: NSObject {
     let title : String
     let total :NSDecimalNumber
     let foreignTrID : String
-    if let titleValue = request["titel"]  {
+    if let titleValue = request["title"]  {
       title=titleValue
     }else {
       print("Error no Title")
