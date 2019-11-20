@@ -34,7 +34,7 @@ const SumUpSDK = {
         return SumUpBridge.logout()
     },
 
-    checkout(title, sum, skip="false",foreignTrID) {
+    checkout(title, sum, skip="false",foreignTrID="") {
         const request = {
             'title' : title,
             'totalAmount' : sum,
