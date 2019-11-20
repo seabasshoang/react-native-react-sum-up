@@ -102,7 +102,7 @@ class SumUpBridge: NSObject {
   ) ->Void {
     let ckeckIsLoggedIN = SumUpSDK.isLoggedIn
     if (ckeckIsLoggedIN){
-      resolve(self.generateJSONResponse(parms: ["status":"success"]));
+      resolve(self.generateJSONResponse(parms: ["isLoggedIn":"true"]));
     }
     else {
       let error = NSError(domain: "", code: 200, userInfo: [NSLocalizedDescriptionKey: "Not Login"])
