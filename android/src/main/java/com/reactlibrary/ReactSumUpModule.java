@@ -51,9 +51,15 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void loginToSumUpWithToken(String affiliateKey, String token, Promise promise) {
-        sumUpPromise = promise;
-        SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).accessToken(token).build();
-        SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
+       if (SumUpAPI.isLoggedIn()) {
+            WritableMap map = Arguments.createMap();
+            map.putBoolean("success", true);
+            promise.resolve(map);
+        } else {
+            sumUpPromise = promise;
+            SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).accessToken(token).build();
+            SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
+        }
     }
 
     @ReactMethod
