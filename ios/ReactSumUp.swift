@@ -202,7 +202,8 @@ class SumUpBridge: NSObject {
           }
                resolve(self.generateJSONResponse(parms: resultObject))
             } else {
-               resolve(self.generateJSONResponse(parms: ["status":"false"]))
+               let error = NSError(domain: "", code: 200, userInfo: [NSLocalizedDescriptionKey:"Error by PaymentCheckout"])
+               reject("ERROR_CHECKOUT", "Transaction arborted",error)
         }
       }
     }
