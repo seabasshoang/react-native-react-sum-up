@@ -78,13 +78,24 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
             if (request.getString("foreignID") != null) {
                 foreignTransactionId = request.getString("foreignID");
             }
-            SumUpPayment payment = SumUpPayment.builder()
-                    .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
-                    .currency(SumUpPayment.Currency.EUR)
-                    .title(request.getString("title"))
-                    .foreignTransactionId(foreignTransactionId)
-                    .skipSuccessScreen()
-                    .build();
+            SumUpPayment payment;
+            if(request.getString("skipScreenOptions") == "true" ) {
+               payment = SumUpPayment.builder()
+                        .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
+                        .currency(SumUpPayment.Currency.EUR)
+                        .title(request.getString("title"))
+                        .foreignTransactionId(foreignTransactionId)
+                        .skipSuccessScreen()
+                        .build();
+            }else {
+                payment = SumUpPayment.builder()
+                        .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
+                        .currency(SumUpPayment.Currency.EUR)
+                        .title(request.getString("title"))
+                        .foreignTransactionId(foreignTransactionId)
+                        .build();
+            }
+           
             SumUpAPI.checkout(getCurrentActivity(), payment, REQUEST_CODE_PAYMENT);
         } catch (Exception ex) {
             sumUpPromise.reject(ex);
