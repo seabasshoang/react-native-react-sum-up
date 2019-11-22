@@ -215,7 +215,7 @@ class SumUpBridge: NSObject {
         var resultObject = [String:Any]()
         if safeResult.success {
           print("success")
-          resultObject["status"] = true
+          resultObject["success"] = true
           guard let transCode = safeResult.transactionCode else {
             return
           }
