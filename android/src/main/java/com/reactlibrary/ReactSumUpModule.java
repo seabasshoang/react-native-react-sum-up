@@ -75,6 +75,23 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
         sumUpPromise.resolve(true);
     }
 
+     private SumUpPayment.Currency getCurrency(String currency) {
+        switch (currency) {
+            case "BGN": return SumUpPayment.Currency.BGN;
+            case "BRL": return SumUpPayment.Currency.BRL;
+            case "CHF": return SumUpPayment.Currency.CHF;
+            case "CZK": return SumUpPayment.Currency.CZK;
+            case "DKK": return SumUpPayment.Currency.DKK;
+            case "EUR": return SumUpPayment.Currency.EUR;
+            case "GBP": return SumUpPayment.Currency.GBP;
+            case "NOK": return SumUpPayment.Currency.NOK;
+            case "PLN": return SumUpPayment.Currency.PLN;
+            case "SEK": return SumUpPayment.Currency.SEK;
+            default:  return SumUpPayment.Currency.USD;
+        }
+    }
+
+
     @ReactMethod
     public void paymentCheckout(ReadableMap request, Promise promise) {
 
@@ -84,11 +101,12 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
             if (request.getString("foreignID") != null) {
                 foreignTransactionId = request.getString("foreignID");
             }
+            SumUpPayment.Currency currencyCode = this.getCurrency(request.getString("currencyCode"));
             SumUpPayment payment;
             if(request.getString("skipScreenOptions") == "true" ) {
                payment = SumUpPayment.builder()
                         .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
-                        .currency(SumUpPayment.Currency.EUR)
+                        .currency(currencyCode)
                         .title(request.getString("title"))
                         .foreignTransactionId(foreignTransactionId)
                         .skipSuccessScreen()
@@ -96,7 +114,7 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
             }else {
                 payment = SumUpPayment.builder()
                         .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
-                        .currency(SumUpPayment.Currency.EUR)
+                        .currency(currencyCode)
                         .title(request.getString("title"))
                         .foreignTransactionId(foreignTransactionId)
                         .build();

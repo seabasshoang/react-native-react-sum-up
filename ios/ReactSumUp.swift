@@ -26,6 +26,35 @@ class SumUpBridge: NSObject {
       return "error"
     }
   }
+
+ func getCurrency(currency: String?) -> String {
+        let currencyCode : String
+        if let currencyValue = currency  {
+          currencyCode=currencyValue
+        }else {
+          print("Warning no currencyValue")
+            currencyCode=""
+        }
+        switch currencyCode {
+            case "BGN": return "BGN"
+            case "BRL": return "BRL"
+            case "CHF": return "CHF"
+            case "CZK": return "CZK"
+            case "DKK": return "DKK"
+            case "EUR": return "EUR"
+            case "GBP": return "GBP"
+            case "NOK": return "NOK"
+            case "PLN": return "PLN"
+            case "SEK": return "SEK"
+            case "US": return "US"
+            default:
+                guard let merchantCurrencyCode = SumUpSDK.currentMerchant?.currencyCode else {
+                  return ""
+                }
+                return merchantCurrencyCode
+        }
+    }
+  
   
   @objc func setupAPIKey(_ apikey :String,
                          resolve: RCTPromiseResolveBlock,
@@ -138,9 +167,6 @@ class SumUpBridge: NSObject {
     }else{
       return
     }
-    guard let merchantCurrencyCode = SumUpSDK.currentMerchant?.currencyCode else {
-      return
-    }
     if let foreId = request["foreignID"]{
       foreignTrID=foreId
     } else {
@@ -149,9 +175,9 @@ class SumUpBridge: NSObject {
     guard let skip = request["skipScreenOptions"] else {
       return
     }
+   let checkoutCurrency = self.getCurrency(currency: request["currencyCode"])
     
-    
-    let checkOutRequest = CheckoutRequest(total: total, title: title, currencyCode: merchantCurrencyCode, paymentOptions: [.cardReader, .mobilePayment])
+    let checkOutRequest = CheckoutRequest(total: total, title: title, currencyCode: checkoutCurrency, paymentOptions: [.cardReader, .mobilePayment])
     if(skip == "true"){
       checkOutRequest.skipScreenOptions = .success
     }
