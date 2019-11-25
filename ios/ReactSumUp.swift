@@ -55,7 +55,10 @@ class SumUpBridge: NSObject {
         }
     }
   
-  
+  @objc static func requiresMainQueueSetup() -> Bool {
+        return false
+  }
+
   @objc func setupAPIKey(_ apikey :String,
                          resolve: RCTPromiseResolveBlock,
                          rejecter reject: RCTPromiseRejectBlock
