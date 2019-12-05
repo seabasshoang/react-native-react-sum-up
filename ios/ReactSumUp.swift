@@ -46,7 +46,7 @@ class SumUpBridge: NSObject {
             case "NOK": return "NOK"
             case "PLN": return "PLN"
             case "SEK": return "SEK"
-            case "US": return "US"
+            case "USD": return "USD"
             default:
                 guard let merchantCurrencyCode = SumUpSDK.currentMerchant?.currencyCode else {
                   return ""
