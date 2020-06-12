@@ -87,7 +87,8 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
             case "NOK": return SumUpPayment.Currency.NOK;
             case "PLN": return SumUpPayment.Currency.PLN;
             case "SEK": return SumUpPayment.Currency.SEK;
-            default:  return SumUpPayment.Currency.USD;
+            case "CLP": return SumUpPayment.Currency.CLP;
+            default:  return SumUpPayment.Currency.CLP;
         }
     }
 
@@ -119,7 +120,7 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                         .foreignTransactionId(foreignTransactionId)
                         .build();
             }
-           
+
             SumUpAPI.checkout(getCurrentActivity(), payment, REQUEST_CODE_PAYMENT);
         } catch (Exception ex) {
             sumUpPromise.reject(ex);

@@ -1,7 +1,7 @@
 {
-  "name": "react-native-react-sum-up",
-  "title": "React Native React Sum Up",
-  "version": "1.0.1",
+  "name": "react-native-sumup-v2",
+  "title": "React Native React Sum Up v2",
+  "version": "2.0.0",
   "description": "Bridge To use the SumUp SDK",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WebRom1145/react-native-react-sum-up.git",
-    "baseUrl": "https://github.com/WebRom1145/react-native-react-sum-up.git"
+    "url": "git+https://github.com/jmoris/react-native-react-sum-up.git",
+    "baseUrl": "https://github.com/jmoris/react-native-react-sum-up.git"
   },
   "keywords": [
     "react-native"
@@ -19,6 +19,13 @@
     "name": "Romano Schneider",
     "email": "rschneider1145@web.de"
   },
+  "contributors": [
+    {
+        "name": "Jesus Moris",
+        "email": "jesus@soluciontotal.cl",
+        "url": "https://soluciontotal.cl"
+    }
+  ],
   "license": "MIT",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
