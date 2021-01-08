@@ -5,6 +5,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import com.facebook.react.bridge.ActivityEventListener;
@@ -19,6 +20,7 @@ import com.sumup.merchant.api.SumUpLogin;
 import com.sumup.merchant.api.SumUpPayment;
 import com.sumup.merchant.CoreState;
 import com.sumup.merchant.Models.UserModel;
+import com.sumup.merchant.api.SumUpState;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -35,6 +37,10 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
     public ReactSumUpModule(ReactApplicationContext reactContext) {
         super(reactContext);
         reactContext.addActivityEventListener(mActivityEventListener);
+    }
+
+    public static void initSumUp(Context context) {
+        SumUpState.init(context);
     }
 
     @Override
