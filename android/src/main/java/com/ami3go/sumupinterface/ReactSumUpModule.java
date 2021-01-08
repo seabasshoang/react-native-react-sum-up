@@ -102,6 +102,7 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
     public void prepareForCheckout(Promise promise) {
         _sumUpPromise = promise;
         SumUpAPI.prepareForCheckout();
+        _sumUpPromise.resolve(true);
     }
 
     @ReactMethod
