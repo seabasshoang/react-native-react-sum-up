@@ -1,40 +1,43 @@
 {
-  "name": "react-native-sumup-v2",
-  "title": "React Native React Sum Up v2",
-  "version": "2.0.0",
-  "description": "Bridge To use the SumUp SDK",
+  "name": "@ami3goltd/react-native-sumup-interface",
+  "title": "React Native SumUp interface",
+  "version": "1.0.0",
+  "description": "Bridge to use the SumUp SDK",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jmoris/react-native-react-sum-up.git",
-    "baseUrl": "https://github.com/jmoris/react-native-react-sum-up.git"
+    "url": "git+https://github.com/AMI3GOLtd/react-native-react-sum-up.git",
+    "baseUrl": "https://github.com/AMI3GOLtd/react-native-react-sum-up.git"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "sumup"
   ],
-  "author": {
-    "name": "Romano Schneider",
-    "email": "rschneider1145@web.de"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/ami3goltd"
   },
+  "author": "AMI3GO Ltd <enquiry@ami3go.com>",
   "contributors": [
-    {
-        "name": "Jesus Moris",
-        "email": "jesus@soluciontotal.cl",
-        "url": "https://soluciontotal.cl"
-    }
+    "AMI3GO Ltd <enquiry@ami3go.com> (https://ami3go.com)"
   ],
   "license": "MIT",
   "licenseFilename": "LICENSE",
-  "readmeFilename": "README.md",
   "peerDependencies": {
-    "react": "^16.8.1",
-    "react-native": ">=0.59.0-rc.0 <1.0.x"
+    "react": "^16.13.1",
+    "react-native": ">=0.63.3 <1.0.x"
   },
   "devDependencies": {
-    "react": "^16.8.3",
-    "react-native": "^0.59.10"
+    "react": "^16.13.1",
+    "react-native": "^0.63.3"
+  },
+  "bugs": {
+    "url": "https://github.com/AMI3GOLtd/react-native-react-sum-up/issues"
+  },
+  "homepage": "https://github.com/AMI3GOLtd/react-native-react-sum-up#readme",
+  "directories": {
+    "test": "test"
   }
 }
