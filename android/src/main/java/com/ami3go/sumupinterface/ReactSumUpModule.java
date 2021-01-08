@@ -18,18 +18,37 @@ import com.sumup.merchant.reader.api.SumUpAPI;
 import com.sumup.merchant.reader.api.SumUpLogin;
 import com.sumup.merchant.reader.api.SumUpPayment;
 import com.sumup.merchant.reader.api.SumUpState;
+import com.sumup.merchant.reader.models.TransactionInfo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class ReactSumUpModule extends ReactContextBaseJavaModule {
+
     private static final int REQUEST_CODE_LOGIN = 1;
     private static final int REQUEST_CODE_PAYMENT = 2;
     private static final int REQUEST_CODE_PAYMENT_SETTINGS = 3;
     private static final int TRANSACTION_SUCCESSFUL = 1;
 
-    private Promise sumUpPromise;
+    private static final String SMPCurrencyCodeBGN = "SMPCurrencyCodeBGN";
+    private static final String SMPCurrencyCodeBRL = "SMPCurrencyCodeBRL";
+    private static final String SMPCurrencyCodeCHF = "SMPCurrencyCodeCHF";
+    private static final String SMPCurrencyCodeCLP = "SMPCurrencyCodeCLP";
+    private static final String SMPCurrencyCodeCZK = "SMPCurrencyCodeCZK";
+    private static final String SMPCurrencyCodeDKK = "SMPCurrencyCodeDKK";
+    private static final String SMPCurrencyCodeEUR = "SMPCurrencyCodeEUR";
+    private static final String SMPCurrencyCodeGBP = "SMPCurrencyCodeGBP";
+    private static final String SMPCurrencyCodeHUF = "SMPCurrencyCodeHUF";
+    private static final String SMPCurrencyCodeNOK = "SMPCurrencyCodeNOK";
+    private static final String SMPCurrencyCodePLN = "SMPCurrencyCodePLN";
+    private static final String SMPCurrencyCodeRON = "SMPCurrencyCodeRON";
+    private static final String SMPCurrencyCodeSEK = "SMPCurrencyCodeSEK";
+    private static final String SMPCurrencyCodeUSD = "SMPCurrencyCodeUSD";
+
+    private Promise _sumUpPromise;
 
     public ReactSumUpModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -45,95 +64,99 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
         return "SumUpBridge";
     }
 
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("SMPCurrencyCodeBGN", SMPCurrencyCodeBGN);
+        constants.put("SMPCurrencyCodeBRL", SMPCurrencyCodeBRL);
+        constants.put("SMPCurrencyCodeCHF", SMPCurrencyCodeCHF);
+        constants.put("SMPCurrencyCodeCLP", SMPCurrencyCodeCLP);
+        constants.put("SMPCurrencyCodeCZK", SMPCurrencyCodeCZK);
+        constants.put("SMPCurrencyCodeDKK", SMPCurrencyCodeDKK);
+        constants.put("SMPCurrencyCodeEUR", SMPCurrencyCodeEUR);
+        constants.put("SMPCurrencyCodeGBP", SMPCurrencyCodeGBP);
+        constants.put("SMPCurrencyCodeHUF", SMPCurrencyCodeHUF);
+        constants.put("SMPCurrencyCodeNOK", SMPCurrencyCodeNOK);
+        constants.put("SMPCurrencyCodePLN", SMPCurrencyCodePLN);
+        constants.put("SMPCurrencyCodeRON", SMPCurrencyCodeRON);
+        constants.put("SMPCurrencyCodeSEK", SMPCurrencyCodeSEK);
+        constants.put("SMPCurrencyCodeUSD", SMPCurrencyCodeUSD);
+        return constants;
+    }
+
     @ReactMethod
-    public void presentLoginFromViewController(String affiliateKey, Promise promise) {
-        sumUpPromise = promise;
+    public void authenticate(String affiliateKey, Promise promise) {
+        _sumUpPromise = promise;
         SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).build();
         SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
     }
 
     @ReactMethod
-    public void loginToSumUpWithToken(String affiliateKey, String token, Promise promise) {
-       if (SumUpAPI.isLoggedIn()) {
-            WritableMap map = Arguments.createMap();
-            map.putBoolean("success", true);
-            promise.resolve(map);
-        } else {
-            sumUpPromise = promise;
-            SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).accessToken(token).build();
-            SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
-        }
+    public void authenticateWithToken(String affiliateKey, String token, Promise promise) {
+        _sumUpPromise = promise;
+        SumUpLogin sumupLogin = SumUpLogin.builder(affiliateKey).accessToken(token).build();
+        SumUpAPI.openLoginActivity(getCurrentActivity(), sumupLogin, REQUEST_CODE_LOGIN);
     }
 
     @ReactMethod
-    public void preparePaymentCheckout(Promise promise) {
-        sumUpPromise = promise;
+    public void prepareForCheckout(Promise promise) {
+        _sumUpPromise = promise;
         SumUpAPI.prepareForCheckout();
     }
 
     @ReactMethod
     public void logout(Promise promise) {
-        sumUpPromise = promise;
+        _sumUpPromise = promise;
         SumUpAPI.logout();
-        sumUpPromise.resolve(true);
+        _sumUpPromise.resolve(true);
     }
 
-     private SumUpPayment.Currency getCurrency(String currency) {
+    private SumUpPayment.Currency getCurrency(String currency) {
         switch (currency) {
-            case "BGN": return SumUpPayment.Currency.BGN;
-            case "BRL": return SumUpPayment.Currency.BRL;
-            case "CHF": return SumUpPayment.Currency.CHF;
-            case "CZK": return SumUpPayment.Currency.CZK;
-            case "DKK": return SumUpPayment.Currency.DKK;
-            case "EUR": return SumUpPayment.Currency.EUR;
-            case "GBP": return SumUpPayment.Currency.GBP;
-            case "NOK": return SumUpPayment.Currency.NOK;
-            case "PLN": return SumUpPayment.Currency.PLN;
-            case "SEK": return SumUpPayment.Currency.SEK;
-            case "CLP": return SumUpPayment.Currency.CLP;
-            default:  return SumUpPayment.Currency.CLP;
+            case SMPCurrencyCodeBGN: return SumUpPayment.Currency.BGN;
+            case SMPCurrencyCodeBRL: return SumUpPayment.Currency.BRL;
+            case SMPCurrencyCodeCHF: return SumUpPayment.Currency.CHF;
+            case SMPCurrencyCodeCLP: return SumUpPayment.Currency.CLP;
+            case SMPCurrencyCodeCZK: return SumUpPayment.Currency.CZK;
+            case SMPCurrencyCodeDKK: return SumUpPayment.Currency.DKK;
+            case SMPCurrencyCodeEUR: return SumUpPayment.Currency.EUR;
+            case SMPCurrencyCodeGBP: return SumUpPayment.Currency.GBP;
+            case SMPCurrencyCodeHUF: return SumUpPayment.Currency.HUF;
+            case SMPCurrencyCodeNOK: return SumUpPayment.Currency.NOK;
+            case SMPCurrencyCodePLN: return SumUpPayment.Currency.PLN;
+            case SMPCurrencyCodeRON: return SumUpPayment.Currency.RON;
+            case SMPCurrencyCodeSEK: return SumUpPayment.Currency.SEK;
+            default: case SMPCurrencyCodeUSD: return SumUpPayment.Currency.USD;
         }
     }
 
-
     @ReactMethod
-    public void paymentCheckout(ReadableMap request, Promise promise) {
-
-        sumUpPromise = promise;
+    public void checkout(ReadableMap request, Promise promise) {
+        _sumUpPromise = promise;
         try {
-            String foreignTransactionId = "";
-            if (request.getString("foreignID") != null) {
-                foreignTransactionId = request.getString("foreignID");
-            }
-            SumUpPayment.Currency currencyCode = this.getCurrency(request.getString("currencyCode"));
-            SumUpPayment payment;
-            if(request.getString("skipScreenOptions") == "true" ) {
-               payment = SumUpPayment.builder()
-                        .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
-                        .currency(currencyCode)
-                        .title(request.getString("title"))
-                        .foreignTransactionId(foreignTransactionId)
-                        .skipSuccessScreen()
-                        .build();
-            }else {
-                payment = SumUpPayment.builder()
-                        .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
-                        .currency(currencyCode)
-                        .title(request.getString("title"))
-                        .foreignTransactionId(foreignTransactionId)
-                        .build();
+            String foreignTransactionId = UUID.randomUUID().toString();
+            if (request.getString("foreignTransactionId") != null) {
+                foreignTransactionId = request.getString("foreignTransactionId");
             }
 
+            SumUpPayment.Currency currencyCode = this.getCurrency(request.getString("currencyCode"));
+            SumUpPayment payment = SumUpPayment.builder()
+                    .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
+                    .currency(currencyCode)
+                    .title(request.getString("title"))
+                    .foreignTransactionId(foreignTransactionId)
+                    .skipSuccessScreen()
+                    .build();
             SumUpAPI.checkout(getCurrentActivity(), payment, REQUEST_CODE_PAYMENT);
         } catch (Exception ex) {
-            sumUpPromise.reject(ex);
-            sumUpPromise = null;
+            _sumUpPromise.reject(ex);
+            _sumUpPromise = null;
         }
     }
 
     @ReactMethod
     public void preferences(Promise promise) {
-        sumUpPromise = promise;
+        _sumUpPromise = promise;
         SumUpAPI.openPaymentSettingsActivity(getCurrentActivity(), REQUEST_CODE_PAYMENT_SETTINGS);
     }
 
@@ -155,9 +178,10 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                         if (extra.getInt(SumUpAPI.Response.RESULT_CODE) == REQUEST_CODE_LOGIN) {
                             WritableMap map = Arguments.createMap();
                             map.putBoolean("success", true);
-                            sumUpPromise.resolve(map);
+
+                            _sumUpPromise.resolve(map);
                         } else {
-                            sumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
+                            _sumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
                         }
                     }
                     break;
@@ -165,21 +189,29 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                 case REQUEST_CODE_PAYMENT:
                     if (data != null) {
                         Bundle extra = data.getExtras();
-                        if (sumUpPromise != null) {
+                        if (_sumUpPromise != null) {
                             if (extra.getInt(SumUpAPI.Response.RESULT_CODE) == TRANSACTION_SUCCESSFUL) {
                                 WritableMap map = Arguments.createMap();
                                 map.putBoolean("success", true);
                                 map.putString("transactionCode", extra.getString(SumUpAPI.Response.TX_CODE));
-                                sumUpPromise.resolve(map);
+
+                                TransactionInfo transactionInfo = extra.getParcelable(SumUpAPI.Response.TX_INFO);
+                                WritableMap additionalInfo = Arguments.createMap();
+                                additionalInfo.putString("cardType", transactionInfo.getCard().getType());
+                                additionalInfo.putString("cardLast4Digits", transactionInfo.getCard().getLast4Digits());
+                                additionalInfo.putInt("installments", transactionInfo.getInstallments());
+                                map.putMap("additionalInfo", additionalInfo);
+
+                                _sumUpPromise.resolve(map);
                             }else
-                                sumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
+                                _sumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
                         }
                     }
                     break;
                 case REQUEST_CODE_PAYMENT_SETTINGS:
                     WritableMap map = Arguments.createMap();
                     map.putBoolean("success", true);
-                    sumUpPromise.resolve(map);
+                    _sumUpPromise.resolve(map);
                     break;
                 default:
                     break;
