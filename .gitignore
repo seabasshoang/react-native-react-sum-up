@@ -43,3 +43,6 @@ buck-out/
 
 # VISUAL STUDIO
 .vs
+
+# NPM
+.npmrc

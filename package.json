@@ -1,7 +1,7 @@
 {
-  "name": "@ami3goltd/react-native-sumup-interface",
+  "name": "react-native-sumup-interface",
   "title": "React Native SumUp interface",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bridge to use the SumUp SDK",
   "main": "index.js",
   "scripts": {
@@ -16,9 +16,6 @@
     "react-native",
     "sumup"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/ami3goltd"
-  },
   "author": "AMI3GO Ltd <enquiry@ami3go.com>",
   "contributors": [
     "AMI3GO Ltd <enquiry@ami3go.com> (https://ami3go.com)"
