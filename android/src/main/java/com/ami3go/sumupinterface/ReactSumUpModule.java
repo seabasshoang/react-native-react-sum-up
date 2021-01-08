@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.ami3go.sumupinterface;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -14,13 +14,10 @@ import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
-import com.sumup.merchant.Models.TransactionInfo;
-import com.sumup.merchant.api.SumUpAPI;
-import com.sumup.merchant.api.SumUpLogin;
-import com.sumup.merchant.api.SumUpPayment;
-import com.sumup.merchant.CoreState;
-import com.sumup.merchant.Models.UserModel;
-import com.sumup.merchant.api.SumUpState;
+import com.sumup.merchant.reader.api.SumUpAPI;
+import com.sumup.merchant.reader.api.SumUpLogin;
+import com.sumup.merchant.reader.api.SumUpPayment;
+import com.sumup.merchant.reader.api.SumUpState;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
