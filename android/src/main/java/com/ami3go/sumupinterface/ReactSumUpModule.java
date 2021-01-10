@@ -142,7 +142,7 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
 
             SumUpPayment.Currency currencyCode = this.getCurrency(request.getString("currencyCode"));
             SumUpPayment payment = SumUpPayment.builder()
-                    .total(new BigDecimal(request.getString("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
+                    .total(new BigDecimal(request.getDouble("totalAmount")).setScale(2, RoundingMode.HALF_EVEN))
                     .currency(currencyCode)
                     .title(request.getString("title"))
                     .foreignTransactionId(foreignTransactionId)
@@ -198,6 +198,8 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
 
                                 TransactionInfo transactionInfo = extra.getParcelable(SumUpAPI.Response.TX_INFO);
                                 WritableMap additionalInfo = Arguments.createMap();
+                                additionalInfo.putInt("resultCode", extra.getInt(SumUpAPI.Response.RESULT_CODE));
+                                additionalInfo.putString("message", extra.getString(SumUpAPI.Response.MESSAGE));
                                 additionalInfo.putString("cardType", transactionInfo.getCard().getType());
                                 additionalInfo.putString("cardLast4Digits", transactionInfo.getCard().getLast4Digits());
                                 additionalInfo.putInt("installments", transactionInfo.getInstallments());
