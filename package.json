@@ -1,40 +1,49 @@
 {
   "name": "react-native-sumup-interface",
   "title": "React Native SumUp interface",
-  "version": "1.0.6",
+  "version": "1.1.7",
   "description": "Bridge to use the SumUp SDK",
-  "main": "index.js",
-  "scripts": {
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts":
+  {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
+  "repository":
+  {
     "type": "git",
     "url": "git+https://github.com/AMI3GOLtd/react-native-react-sum-up.git",
     "baseUrl": "https://github.com/AMI3GOLtd/react-native-react-sum-up.git"
   },
-  "keywords": [
+  "keywords":
+  [
     "react-native",
     "sumup"
   ],
   "author": "AMI3GO Ltd <enquiry@ami3go.com>",
-  "contributors": [
+  "contributors":
+  [
     "AMI3GO Ltd <enquiry@ami3go.com> (https://ami3go.com)"
   ],
   "license": "MIT",
   "licenseFilename": "LICENSE",
-  "peerDependencies": {
+  "peerDependencies":
+  {
     "react": "^16.13.1",
     "react-native": ">=0.63.3 <1.0.x"
   },
-  "devDependencies": {
+  "devDependencies":
+  {
     "react": "^16.13.1",
     "react-native": "^0.63.3"
   },
-  "bugs": {
+  "bugs":
+  {
     "url": "https://github.com/AMI3GOLtd/react-native-react-sum-up/issues"
   },
   "homepage": "https://github.com/AMI3GOLtd/react-native-react-sum-up#readme",
-  "directories": {
+  "directories":
+  {
     "test": "test"
   }
 }
