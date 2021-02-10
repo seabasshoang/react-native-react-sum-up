@@ -8,6 +8,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.BaseActivityEventListener;
@@ -108,8 +111,14 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void logout(Promise promise) {
         _sumUpPromise = promise;
-        SumUpAPI.logout();
-        _sumUpPromise.resolve(true);
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                SumUpAPI.logout();
+                _sumUpPromise.resolve(true);
+            }
+        });
     }
 
     private SumUpPayment.Currency getCurrency(String currency) {
