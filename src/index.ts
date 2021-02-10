@@ -53,6 +53,11 @@ class SumUpSDK
             SumUpBridge.setup(key);
     }
 
+    public get apiKey()
+    {
+        return SumUpSDK._apiKey;
+    }
+
     public authenticate(): Promise<SumUpResult>
     {
         return (Platform.OS === 'ios') ? SumUpBridge.authenticate() : SumUpBridge.authenticate(SumUpSDK._apiKey);
