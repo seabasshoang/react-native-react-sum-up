@@ -30,7 +30,7 @@ interface SumUpResult
     success: boolean
 }
 
-interface CheckoutResult extends SumUpResult
+export interface CheckoutResult extends SumUpResult
 {
     resultCode: number,
     message: string,
