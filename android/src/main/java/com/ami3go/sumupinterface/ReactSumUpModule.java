@@ -203,15 +203,15 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                             if (extra.getInt(SumUpAPI.Response.RESULT_CODE) == TRANSACTION_SUCCESSFUL) {
                                 WritableMap map = Arguments.createMap();
                                 map.putBoolean("success", true);
+                                map.putString("resultCode", extra.getInt(SumUpAPI.Response.RESULT_CODE));
+                                map.putString("message", extra.getString(SumUpAPI.Response.MESSAGE));
                                 map.putString("transactionCode", extra.getString(SumUpAPI.Response.TX_CODE));
+                                map.putString("cardType", transactionInfo.getCard().getType());
+                                map.putString("cardLast4Digits", transactionInfo.getCard().getLast4Digits());
+                                map.putInt("installments", transactionInfo.getInstallments());
 
                                 TransactionInfo transactionInfo = extra.getParcelable(SumUpAPI.Response.TX_INFO);
                                 WritableMap additionalInfo = Arguments.createMap();
-                                additionalInfo.putInt("resultCode", extra.getInt(SumUpAPI.Response.RESULT_CODE));
-                                additionalInfo.putString("message", extra.getString(SumUpAPI.Response.MESSAGE));
-                                additionalInfo.putString("cardType", transactionInfo.getCard().getType());
-                                additionalInfo.putString("cardLast4Digits", transactionInfo.getCard().getLast4Digits());
-                                additionalInfo.putInt("installments", transactionInfo.getInstallments());
                                 map.putMap("additionalInfo", additionalInfo);
 
                                 _sumUpPromise.resolve(map);
