@@ -104,8 +104,14 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void prepareForCheckout(Promise promise) {
         _sumUpPromise = promise;
-        SumUpAPI.prepareForCheckout();
-        _sumUpPromise.resolve(true);
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                SumUpAPI.prepareForCheckout();
+                _sumUpPromise.resolve(true);
+            }
+        });
     }
 
     @ReactMethod
@@ -201,16 +207,17 @@ public class ReactSumUpModule extends ReactContextBaseJavaModule {
                         Bundle extra = data.getExtras();
                         if (_sumUpPromise != null) {
                             if (extra.getInt(SumUpAPI.Response.RESULT_CODE) == TRANSACTION_SUCCESSFUL) {
+                                TransactionInfo transactionInfo = extra.getParcelable(SumUpAPI.Response.TX_INFO);
+
                                 WritableMap map = Arguments.createMap();
                                 map.putBoolean("success", true);
-                                map.putString("resultCode", extra.getInt(SumUpAPI.Response.RESULT_CODE));
+                                map.putInt("resultCode", extra.getInt(SumUpAPI.Response.RESULT_CODE));
                                 map.putString("message", extra.getString(SumUpAPI.Response.MESSAGE));
                                 map.putString("transactionCode", extra.getString(SumUpAPI.Response.TX_CODE));
                                 map.putString("cardType", transactionInfo.getCard().getType());
                                 map.putString("cardLast4Digits", transactionInfo.getCard().getLast4Digits());
                                 map.putInt("installments", transactionInfo.getInstallments());
 
-                                TransactionInfo transactionInfo = extra.getParcelable(SumUpAPI.Response.TX_INFO);
                                 WritableMap additionalInfo = Arguments.createMap();
                                 map.putMap("additionalInfo", additionalInfo);
 
