@@ -1,7 +1,7 @@
 {
-  "name": "react-native-sumup-interface",
-  "title": "React Native SumUp interface",
-  "version": "1.1.13",
+  "name": "react-native-sumup-wrapper",
+  "title": "React Native SumUp Wrapper",
+  "version": "1.0.0",
   "description": "Bridge to use the SumUp SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,8 +13,8 @@
   "repository":
   {
     "type": "git",
-    "url": "git+https://github.com/AMI3GOLtd/react-native-react-sum-up.git",
-    "baseUrl": "https://github.com/AMI3GOLtd/react-native-react-sum-up.git"
+    "url": "git+https://github.com/seabasshoang/react-native-react-sum-up.git",
+    "baseUrl": "https://github.com/seabasshoang/react-native-react-sum-up.git"
   },
   "keywords":
   [
@@ -40,9 +40,9 @@
   },
   "bugs":
   {
-    "url": "https://github.com/AMI3GOLtd/react-native-react-sum-up/issues"
+    "url": "https://github.com/seabasshoang/react-native-react-sum-up"
   },
-  "homepage": "https://github.com/AMI3GOLtd/react-native-react-sum-up#readme",
+  "homepage": "https://github.com/seabasshoang/react-native-react-sum-up#readme",
   "directories":
   {
     "test": "test"
